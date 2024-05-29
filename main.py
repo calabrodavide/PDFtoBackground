@@ -12,7 +12,7 @@ path = "C:/Users/Utente/Desktop/calendario/"
 
 file_list: list[str] = [os.path.abspath(os.path.join(path, f)) for f in os.listdir(path) if f.endswith('.pdf')]
 # get latest pdf file
-file = max(file_list, key=os.path.getctime) if len(file_list) > 0 else None
+file = max(file_list, key=os.path.getctime) if len(file_list) > 0 else []
 
 def textToImage(text: str, color=(0, 0, 0), fill=(255, 255, 255)) -> None:
     # Get the primary monitor resolution
@@ -70,9 +70,12 @@ try:
         raise NoPdf("There isn't any pdf in the folder you donut") 
     from tabulate import tabulate
     import unicodedata
-    
     table = [[unicodedata.normalize('NFKD', cell).encode('ASCII', 'ignore').decode() for cell in row] for row in trimPDF(read_pdf(file)) if V(row).valid]
+    if len(table) == 0:
+        raise NoPdf("You can't fool me, the pdf you gave me is not valid")
     textToImage(tabulate(table, tablefmt="pretty"))
     
 except NoPdf as e:
     textToImage(str(e), color=(255, 255, 255), fill=(255, 0, 0))
+except Exception:
+    textToImage("I do not know what is happening but you are still stupid", color=(255, 255, 255), fill=(255, 0, 0))
