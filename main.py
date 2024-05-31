@@ -4,6 +4,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from screeninfo import get_monitors
 import ctypes
+import winreg
 
 class NoPdf(Exception):
     pass
@@ -34,6 +35,12 @@ def textToImage(text: str, color=(0, 0, 0), fill=(255, 255, 255)) -> None:
     img.save('text.png')
 
     ctypes.windll.user32.SystemParametersInfoW(20, 0, os.path.join(os.getcwd(), 'text.png') , 0)
+    
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Control Panel\\Desktop", 0, winreg.KEY_SET_VALUE)
+    winreg.SetValueEx(key, "Wallpaper", 0, winreg.REG_SZ, os.path.join(os.getcwd(), 'text.png'))
+    winreg.CloseKey(key)
+    
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, os.path.join(os.getcwd(), 'text.png'), 3)
     
 def findSize(text: str, width: int, height: int) -> tuple[int, int, int]:
     
