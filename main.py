@@ -1,10 +1,8 @@
 from Class.Validate import Validate as V
 from other.tools import read_pdf, trimPDF
-import os
 from PIL import Image, ImageDraw, ImageFont
 from screeninfo import get_monitors
-import ctypes
-import winreg
+import ctypes, winreg, os
 
 class NoPdf(Exception):
     pass

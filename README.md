@@ -1,4 +1,8 @@
-PLEASE RUN "pip install -r requirements.txt" before using this program
+BEFORE USING this program, open a cmd in the project folder and run "pip install -r requirements.txt".
+
+The included "start.bat" file can be used to start the software.
+
+--------------------------------------------------------------------------------------------------------------------
 
 Small script to set the current calendar as the windows background. 
 
