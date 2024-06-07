@@ -7,7 +7,7 @@ import ctypes, winreg, os
 class NoPdf(Exception):
     pass
 
-path = "C:/Users/Utente/Desktop/calendario/"
+path = r"C:/Users/Utente/Desktop/calendario/"
 
 file_list: list[str] = [os.path.abspath(os.path.join(path, f)) for f in os.listdir(path) if f.endswith('.pdf')]
 # get latest pdf file
