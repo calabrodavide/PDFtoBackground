@@ -19,7 +19,9 @@ def trimPDF(table):
             row.pop(6)
             row.pop(4)
             for i, cell in enumerate(row):
-                if len(cell) < 2 or cell is None:
+                if cell is None:
+                    row.pop(i)
+                elif len(cell) < 2:
                     row.pop(i)
         return table 
     except Exception:
