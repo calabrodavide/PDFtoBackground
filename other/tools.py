@@ -12,9 +12,15 @@ def read_pdf(path):
 # trims the table removing all None values and cells with len < 2 and remove the useless "Numero ore" and luogo column
 def trimPDF(table):
     res = []
+    # date format is dd/mm/yyyy
+    # second column is the date
+    month = table[0][1].split('/')[1]
     try:
         for row in table:
             row = [cell if cell is not None else '' for cell in row]
+            # if the month is different from the one in the first row, skip the row
+            if row[1].split('/')[1] != month:
+                continue
             if row [6] != '':
                 row[5] = row[6]
             row.pop(7)
