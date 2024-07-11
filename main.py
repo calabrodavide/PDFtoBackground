@@ -11,8 +11,8 @@ path = r"C:/Users/Utente/Desktop/calendario/"
 
 file_list: list[str] = [os.path.abspath(os.path.join(path, f)) for f in os.listdir(path) if f.endswith('.pdf')]
 # get latest pdf file
-file = max(file_list, key=os.path.getctime) if len(file_list) > 0 else []
-
+file = [max(file_list, key=os.path.getctime)] if len(file_list) > 0 else []
+    
 def textToImage(text: str, color=(0, 0, 0), fill=(255, 255, 255)) -> None:
     # Get the primary monitor resolution
     width, height = [(monitor.width, monitor.height) for monitor in get_monitors() if monitor.is_primary][0]
@@ -71,7 +71,7 @@ def avgHeight(text: str, font: ImageFont) -> int:
     return sum([font.getbbox(line)[-1] for line in text.split('\n')]) // len(text.split('\n'))
 
 try:
-    if len(file) == 0:
+    if len(file) != 0:
         raise NoPdf("There isn't any pdf in the folder you donut") 
     from tabulate import tabulate
     import unicodedata
