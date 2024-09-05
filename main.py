@@ -2,7 +2,7 @@ from Class.Validate import Validate as V
 from other.tools import read_pdf, trimPDF
 from PIL import Image, ImageDraw, ImageFont
 from screeninfo import get_monitors
-import ctypes, winreg, os
+import ctypes, winreg, os, subprocess
 
 class NoPdf(Exception):
     pass
@@ -71,6 +71,15 @@ def avgHeight(text: str, font: ImageFont) -> int:
     return sum([font.getbbox(line)[-1] for line in text.split('\n')]) // len(text.split('\n'))
 
 try:
+    
+    # git pull
+    result = subprocess.run(['git', 'pull', 'https://github.com/calabrodavide/PDFtoBackground.git', 'main'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if result.stdout.decode() == "Already up to date.\n":
+        print("Already up to date")
+    else:
+        # restart the script
+        os.system('python main.py')
+     
     if len(file) != 1:
         raise NoPdf("There isn't any pdf in the folder you donut") 
     from tabulate import tabulate
@@ -82,5 +91,7 @@ try:
     
 except NoPdf as e:
     textToImage(str(e), color=(255, 255, 255), fill=(255, 0, 0))
+except subprocess.CalledProcessError as e:
+    textToImage(f"Error occurred: {e.stderr.decode()}", color=(255, 255, 255), fill=(255, 0, 0))
 except Exception:
     textToImage("I do not know what is happening but you are still stupid", color=(255, 255, 255), fill=(255, 0, 0))
