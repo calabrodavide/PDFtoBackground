@@ -1,11 +1,9 @@
 import pdfplumber as reader
 
-def read_pdf(path):
+def read_pdf(path: str) -> list[list[str]]:
     try:
         with reader.open(path) as pdf:
-            page = pdf.pages[0]
-            table = page.extract_table()     
-            return table
+            return [row for page in pdf.pages for row in page.extract_table()]
     except FileNotFoundError:
         raise FileNotFoundError(f"File not found: {path}")
     

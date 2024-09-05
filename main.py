@@ -71,14 +71,11 @@ def avgHeight(text: str, font: ImageFont) -> int:
     return sum([font.getbbox(line)[-1] for line in text.split('\n')]) // len(text.split('\n'))
 
 try:
-    print(file)
     if len(file) != 1:
         raise NoPdf("There isn't any pdf in the folder you donut") 
     from tabulate import tabulate
     import unicodedata
-    print("ciao", 1)
-    table = [[unicodedata.normalize('NFKD', cell).encode('ASCII', 'ignore').decode() for cell in row] for row in trimPDF(read_pdf(file)) if V(row).valid]
-    print( "ciao", 2)
+    table = [[unicodedata.normalize('NFKD', cell).encode('ASCII', 'ignore').decode() for cell in row] for row in trimPDF(read_pdf(file[0])) if V(row).valid]
     if len(table) == 0:
         raise NoPdf("You can't fool me, the pdf you gave me is not valid")
     textToImage(tabulate(table, tablefmt="pretty"))
