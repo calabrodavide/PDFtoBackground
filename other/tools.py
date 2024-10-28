@@ -1,4 +1,5 @@
 import pdfplumber as reader
+from datetime import datetime
 
 def read_pdf(path: str) -> list[list[str]]:
     try:
@@ -10,9 +11,8 @@ def read_pdf(path: str) -> list[list[str]]:
 # trims the table removing all None values and cells with len < 2 and remove the useless "Numero ore" and luogo column
 def trimPDF(table):
     res = []
-    # date format is dd/mm/yyyy
-    # second column is the date
-    month = table[0][1].split('/')[1]
+    month = datetime.now().strftime('%m')
+    
     try:
         for row in table:
             row = [cell if cell is not None else '' for cell in row]
